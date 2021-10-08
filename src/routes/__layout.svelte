@@ -7,6 +7,9 @@
 </BaseLayout>
 
 <style>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
 	:global(*) {
 		padding: 0;
 		margin: 0;

@@ -12,14 +12,14 @@
 					alt="svelte logo"
 				/>
 			</a>
-			<span class="brand__logo">Svelte</span>
+			<span class="brand__logo text-green-400">Svelte</span>
 		</div>
 		<nav>
 			<a href="/">Home</a>
 			<a href="/about">About</a>
 			<a href="/settings">Settings</a>
 		</nav>
-		{authStore.isAuthenticated}
+		{$authStore.email}
 	</div>
 </div>
 

@@ -7,38 +7,24 @@ export interface User {
     email: string
 }
 
-export type authProps = {
-    isAuthenticated: boolean,
-    user: User
+type AuthImpl = {
+    subscribe: Writable<User>["subscribe"],
+    isLogged: () => void
+    setUser: (value: User) => void,
+    reset: () => void
 }
 
-function createAuthStore() {
-    const initialValue = {
-        isAuthenticated: false,
-        user: null
-    }
-    const auth: Writable<authProps> = writable(initialValue);
-
+function createAuthStore(): AuthImpl {
+    const user: Writable<User> = writable({} as User);
     return {
-        subscribe: auth.subscribe,
-        setAuthenticated: (value: authProps) => auth.update(u => value),
-        setUser: (value) => auth.update({ ...value, user: true }),
-        reset: () => auth.set(initialValue)
+        subscribe: user.subscribe,
+        isLogged: () => derived(
+            user,
+            $user => $user.email !== null
+        ),
+        setUser: (value: User) => user.set(value),
+        reset: () => user.set({} as User)
     };
 }
 
-class AuthStore {
-    constructor(
-        // public isAuthenticated: Writable<boolean> = writable(false),
-        public user: Writable<User> = writable(null),
-    ) { }
-
-    get isAuthenticated() {
-        return derived(
-            this.user,
-            $user => $user != null
-        )
-    }
-}
-
-export const authStore = new AuthStore()
+export const authStore = createAuthStore()

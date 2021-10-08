@@ -42,3 +42,36 @@ npm run build
 ```bash
 npx svelte-add tailwind
 ```
+
+## Add tailwind Css manually
+
+```bash
+npm install -D tailwindcss autoprefixer
+```
+Then create file `postcss.config.cjs` in root of project and write below code:
+
+```js
+module.exports = {
+    plugins: {
+        autoprefixer: {},
+        tailwindcss: {}
+    }
+}
+```
+Create tailwind config file named `tailwind.config.cjs` in root project and write below code:
+
+```js
+module.exports = {
+  mode: 'jit',
+  purge: ['./src/**/*.svelte']
+}
+```
+
+And then add inside your `layout.svelte`
+```html
+<style>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+</style>
+
